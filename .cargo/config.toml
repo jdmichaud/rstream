@@ -1,0 +1,4 @@
+# To build a fully static executable
+# see https://stackoverflow.com/a/67616507/2603925
+[build]
+target = "x86_64-unknown-linux-musl"
