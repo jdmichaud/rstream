@@ -1,0 +1,52 @@
+workspace = { members = ["field_list"] }
+[package]
+name = "rstream"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+#
+# For the DB
+#
+anyhow = { version = "1.0", features = ["backtrace"] }
+base64ct = { version = "1.6.0", features = ["alloc"] }
+clap = { version = "4.3.19", features = ["derive", "string"] }
+hashes = "0.1.9"
+id3 = "1.10.0"
+jwalk = "0.8.1"
+md-5 = "0.10.6"
+sqlite = { version = "0.32.0" }
+# sqlite3-src is a transitive dependency of sqlite but we need to add the
+# bundled feature so that sqlite library is statically linked in our binaries.
+# https://stackoverflow.com/a/57782994/2603925
+sqlite3-src = { version = "0.5.1", features = ["bundled"] }
+struct_iterable = "0.1.1"
+#
+# For the server
+#
+axum = "0.7.2"
+axum-macros = "0.4.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.68"
+tokio = { version = "1.0", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["fmt"] }
+tower-http = { version = "0.5.0", features = ["fs", "trace"] }
+rust-embed = { version = "8.2.0", features = ["axum"] }
+mime_guess = "2.0.4"
+atty = "0.2.14"
+# Internal dependency
+field_list = { path = "field_list" }
+
+[profile.release] # A profile to try to minimize the size
+panic = "abort" # Abort on Panic
+strip = true
+opt-level = "z" # Optimize For Size
+lto = true # Enable Link Time Optimization (LTO)
+codegen-units = 1 # Reduce Parallel Code Generation Units to Increase Optimization
+
+[profile.release-with-debug]
+inherits = "release"
+debug = true

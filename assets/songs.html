@@ -1,0 +1,25 @@
+<style>
+ .content-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 8;
+  }
+  .song-list {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+</style>
+<script src="assets/observable.umd.js" type="text/javascript"></script>
+<script src="assets/songs.js" type="text/javascript"></script>
+<div class="content-container">
+  <div class="title content-item">Songs</div>
+  <div class="search content-item">
+    <input type="text" placeholder="search...">
+  </div>
+  <div class="song-list content-item">
+    <div class="songs">Song 1</div>
+    <div class="songs">Song 2</div>
+  </div>
+</div>
+

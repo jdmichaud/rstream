@@ -1,0 +1,19 @@
+# To build a fully static executable
+# see https://stackoverflow.com/a/67616507/2603925
+[build]
+target = "x86_64-unknown-linux-musl"
+# To reduce binary size
+rustflags = [ "-Zlocation-detail=none" ]
+
+[unstable]
+# Build the standard library instead of relying on the binary package.
+# panic_abord is needed because panic=abort is used in release
+# see https://github.com/rust-lang/wg-cargo-std-aware/issues/56#issuecomment-654660567
+build-std=["std", "proc_macro", "panic_abort"]
+# For some reason, this crashes the compilation of field_list macro
+#build-std-features = ["panic_immediate_abort"]
+
+# Enable Full Text Search feature in sqlite3
+[env]
+SQLITE_ENABLE_FTS5 = ""
+

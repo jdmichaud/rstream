@@ -1,0 +1,27 @@
+<head>
+  <style>
+   .content-container {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 8;
+    }
+    .artist-list {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+  </style>
+  <script src="assets/albums.js" type="text/javascript"></script>
+  <script src="assets/observable.umd.js" type="text/javascript"></script>
+</head>
+<div class="content-container">
+  <div class="title content-item">Artists</div>
+  <div class="search content-item">
+    <input type="text" placeholder="search...">
+  </div>
+  <div class="artist-list content-item">
+    <div class="artist">Artist 1</div>
+    <div class="artist">Artist 2</div>
+  </div>
+</div>
+
