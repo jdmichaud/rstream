@@ -1,4 +1,24 @@
 
+function nextSong() {
+  const songList = document.querySelector('browser-component').shadowRoot.querySelector('.song-list');
+  const songArray = Array.from(songList.children);
+  const currentSongId = playingSong.get();
+  const currentSongIndex = songArray.findIndex(s => s.getAttribute('data-id') === currentSongId);
+  if (currentSongIndex !== -1 && currentSongIndex < songArray.length - 1) {
+    playingSong.next(songArray[currentSongIndex + 1].getAttribute('data-id'));
+  }
+}
+
+function prevSong() {
+  const songList = document.querySelector('browser-component').shadowRoot.querySelector('.song-list');
+  const songArray = Array.from(songList.children);
+  const currentSongId = playingSong.get();
+  const currentSongIndex = songArray.findIndex(s => s.getAttribute('data-id') === currentSongId);
+  if (currentSongIndex !== -1 && currentSongIndex > 1) {
+    playingSong.next(songArray[currentSongIndex - 1].getAttribute('data-id'));
+  }
+}
+
 async function hookSearchInput() {
   // Wait a bit for the HTML to be loaded
   const songList = await new Promise(resolve => {
@@ -25,6 +45,7 @@ async function hookSearchInput() {
         const songsElements = songs.map(song => {
           const songElement = document.createElement('div');
           songElement.classList.add('song');
+          songElement.setAttribute('data-id', song.id);
           if (playingSong.get() == song.id) {
             songElement.classList.add('playing');
           }
@@ -59,6 +80,7 @@ async function hookClearButton() {
 async function main() {
   hookSearchInput();
   hookClearButton();
+  window.nextSong = nextSong;
 }
 
 if (window.songsScript === undefined || window.songsScript === false) {

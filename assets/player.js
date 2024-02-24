@@ -11,7 +11,7 @@ a {
   justify-content: space-around;
 }
 .track-slider {
-  flex-grow: 5;
+  flex-grow: 1;
 }
 .player-button {
   font-size: 50px;
@@ -29,10 +29,12 @@ a {
 }
 </style>
 <div class="player content-item">
-  <div class="track-slider"></div>
-  <div class="player-button fast-reverse">⏮</div>
+  <div class="track-slider">
+    <progress max="100" value="0"></progress>
+  </div>
+  <div class="player-button reverse">⏮</div>
   <div class="player-button play">▶</div>
-  <div class="player-button fast-forward">⏭</div>
+  <div class="player-button forward">⏭</div>
   <audio class="audio" autoplay>
 </div>
 `;
@@ -58,6 +60,7 @@ class Player extends HTMLElement {
     this.audio.addEventListener('pause', event => this.playing.next(!event.target.paused));
     this.audio.addEventListener('timeupdate', event => this.timeupdate.next(event.target.currentTime));
     this.audio.addEventListener('volumechange', event => this.volumechange.next(event.target.volume));
+    this.audio.addEventListener('ended', () => nextSong());
     // Setup buttons
     this.playButton = this.shadowRoot.querySelector('.play');
     this.playButton.addEventListener('click', () => {
@@ -65,6 +68,15 @@ class Player extends HTMLElement {
     });
     this.playing.subscribe(playing => {
       this.playButton.innerHTML = playing ? '⏸' : '▶';
+    });
+    this.nextButton = this.shadowRoot.querySelector('.forward');
+    this.nextButton.addEventListener('click', () => nextSong());
+    this.prevButton = this.shadowRoot.querySelector('.reverse');
+    this.prevButton.addEventListener('click', () => prevSong());
+    // Setup progress bar
+    this.progressBar = this.shadowRoot.querySelector('.track-slider').querySelector('progress');
+    this.timeupdate.subscribe(currentTime => {
+      this.progressBar.setAttribute('value', currentTime / this.audio.duration * 100);
     });
   }
 
