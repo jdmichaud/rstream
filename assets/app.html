@@ -10,8 +10,10 @@
         /* Body to occupy the entire screen with a margin but without scroll bar */
         margin: 0.5vh;
         height: 99vh;
+        /* Fix height on some mobile browser */
+        height: calc(var(--vh, 1vh) * 99);
         overflow-y: hidden;
-        font-size: 3.2vw;
+        font-size: 5vw;
       }
       .container {
         display: flex;
@@ -28,9 +30,12 @@
       }
       navbar-component {
         margin-right: 10mm;
+        flex-grow: 1;
       }
       browser-component {
-        width: 100%;
+        /*width: 100%;*/
+        /*flex-grow: 1;*/
+        overflow-x: hidden;
       }
       player-component {
         flex: 1;
@@ -40,6 +45,20 @@
     <script src="assets/player.js" type="text/javascript"></script>
     <script src="assets/browser.js" type="text/javascript"></script>
     <script src="assets/observable.umd.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      /* Fix height on some mobile browser */
+      {
+        function fixHeight() {
+          // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+          let vh = window.innerHeight * 0.01;
+          // Then we set the value in the --vh custom property to the root of the document
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+        fixHeight();
+        // We listen to the resize event
+        window.addEventListener('resize', fixHeight);
+      }
+    </script>
   </head>
   <body>
     <div class="container">

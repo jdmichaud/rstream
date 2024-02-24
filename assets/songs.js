@@ -1,10 +1,10 @@
 
 async function hookSearchInput() {
+  // Wait a bit for the HTML to be loaded
   const songList = await new Promise(resolve => {
     const intervalId = setInterval(() => {
       const songList = document.querySelector('browser-component').shadowRoot.querySelector('.song-list');
       if (songList !== undefined) {
-        console.log('done');
         clearInterval(intervalId);
         resolve(songList);
       }

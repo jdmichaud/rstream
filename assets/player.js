@@ -69,6 +69,7 @@ class Player extends HTMLElement {
   }
 
   async play(id) {
+    if (id === '') return;
     this.shadowRoot.querySelector('.audio').src = `/song/${id}`;
     const songData = await (await fetch(`/songs/${id}`)).json();
     console.log(songData);
