@@ -233,19 +233,20 @@ pub fn derive_field_list(input: TokenStream) -> TokenStream {
           .collect::<Result<Vec<(String, String)>>>()?
           .iter()
           .map(|(field_name, field_type)| {
-            if field_name == "id" {
-              format!("{} {} PRIMARY KEY", field_name, field_type)
-            } else {
-              format!("{} {}", field_name, field_type)
-            }
+            format!("{}", field_name)
+            // if field_name == "id" {
+            //   format!("{} {} PRIMARY KEY", field_name, field_type)
+            // } else {
+            //   format!("{} {}", field_name, field_type)
+            // }
           })
           .collect::<Vec<String>>()
           .join(",");
-        #struct_name::execute_query(&connection,
-          &format!("CREATE TABLE IF NOT EXISTS {} ({});", table_name, table))?;
-        // https://www.sqlite.org/fts3.html#termprefix
         // #struct_name::execute_query(&connection,
-        //   &format!("CREATE VIRTUAL TABLE IF NOT EXISTS {} USING fts5({});", table_name, table))?;
+          // &format!("CREATE TABLE IF NOT EXISTS {} ({});", table_name, table))?;
+        // https://www.sqlite.org/fts3.html#termprefix
+        #struct_name::execute_query(&connection,
+          &format!("CREATE VIRTUAL TABLE IF NOT EXISTS {} USING fts5({});", table_name, table))?;
         Ok(())
       }
 

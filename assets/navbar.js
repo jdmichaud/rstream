@@ -10,6 +10,10 @@ a {
   flex-grow: 2;
   max-width: 3cm;
 }
+.navbar-item {
+  margin-top: 0.5mm;
+  margin-bottom: 0.5mm;
+}
 .navbar-item.selected {
   font-weight: bold;
 }
@@ -34,7 +38,6 @@ class Navbar extends HTMLElement {
     window.addEventListener('hashchange', event => {
       this.setSelected(window.location.hash.split('#')[1]);
     });
- 
   }
 
   setSelected(category) {

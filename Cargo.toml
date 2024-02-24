@@ -17,11 +17,11 @@ hashes = "0.1.9"
 id3 = "1.10.0"
 jwalk = "0.8.1"
 md-5 = "0.10.6"
-sqlite = { version = "0.32.0" }
+sqlite = { version = "0.33.0" }
 # sqlite3-src is a transitive dependency of sqlite but we need to add the
 # bundled feature so that sqlite library is statically linked in our binaries.
 # https://stackoverflow.com/a/57782994/2603925
-sqlite3-src = { version = "0.5.1", features = ["bundled"] }
+sqlite3-src = { version = "0.6.0", features = ["bundled"] }
 struct_iterable = "0.1.1"
 #
 # For the server

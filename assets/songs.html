@@ -2,24 +2,199 @@
  .content-container {
     display: flex;
     flex-direction: column;
-    flex-grow: 8;
+    height: 100%;
   }
   .song-list {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: auto;
+    height: 100%;
+    overflow-y: scroll;
+    scrollbar-color: lightgrey black;
+    scrollbar-width: thin;
+  }
+  .search-container {
+    display: flex;
+    width: 100%;
+  }
+  .search {
+    width: 100%;
+    min-height: 1cm;
+  }
+  .search>* {
+    width: 100%;
+    min-height: 1cm;
+  }
+  .song {
+    cursor: grab;
+    user-select: none;
+  }
+  .song:hover {
+    background: #555;
+  }
+  .song.playing {
+    background: orange;
+    color: black;
   }
 </style>
-<script src="assets/observable.umd.js" type="text/javascript"></script>
 <script src="assets/songs.js" type="text/javascript"></script>
 <div class="content-container">
   <div class="title content-item">Songs</div>
-  <div class="search content-item">
-    <input type="text" placeholder="search...">
+  <div class="search-container">
+    <div class="search content-item">
+      <input class="search-box" type="text" placeholder="search...">
+    </div>
+    <button class="clear-button">✕</button>
   </div>
   <div class="song-list content-item">
-    <div class="songs">Song 1</div>
-    <div class="songs">Song 2</div>
-  </div>
+<!--     <div class="song" data-id="CjDMe/2EVaSLZ2iPRgivyg==">Lions</div>
+    <div class="song" data-id="SHto4M83SHOSXnnact55LQ==">Southbound Again</div>
+    <div class="song" data-id="8QnZ9xmAWUPuivwm76e2PA==">Southbound Again</div>
+    <div class="song" data-id="SB187DIPYLUcYXSVXArHxQ==">In The Gallery</div>
+    <div class="song" data-id="w0tFBaajhesxG6tIbKywTA==">Wild West End</div>
+    <div class="song" data-id="L2VDa/P+8neVRGM1HH/a6A==">Lions</div>
+    <div class="song" data-id="YfHdz8fS7Srr5y+v4bvykQ==">Water Of Love</div>
+    <div class="song" data-id="qO/xIS5yL7BqSOKwNDHHbA==">Setting Me Up</div>
+    <div class="song" data-id="gH9f/AjkZjDYseBbKAseKw==">Six Blade Knife</div>
+    <div class="song" data-id="2ZOszQNEqH5tt92FTSl7+Q==">Sultans Of Swing</div>
+    <div class="song" data-id="zS8BDcipK5MqXxsbZV3NJA==">Setting Me Up</div>
+    <div class="song" data-id="Med0TOwWUotF95BC0tkOQg==">Water of Love</div>
+    <div class="song" data-id="iAbWt1rMQ5hyjUHiZ3AeNg==">Six Blade Knife</div>
+    <div class="song" data-id="aKcOmoTGqSBIEvn2LEHE9Q==">In the Gallery</div>
+    <div class="song" data-id="uUP2SIT7sH+lDS4WcfmedQ==">Wild West End</div>
+    <div class="song" data-id="/5L2TVEqA6DfhFIQEJG+YA==">Sultans of Swing</div>
+    <div class="song" data-id="WsGPYHSy+8OGZufi2QNN9A==">Down To The Waterline</div>
+    <div class="song" data-id="IccRmDHyETQiYi5dNNKHpQ==">Down to the Waterline</div>
+    <div class="song" data-id="oYof1XXo2raKCkZ6mTqlhg==">Expresso Love</div>
+    <div class="song" data-id="xhhi9WAawvPowetNiZm5LA==">Private Investigations</div>
+    <div class="song" data-id="ljfuqQgiCEDRIEtjN2zRuQ==">Love over Gold</div>
+    <div class="song" data-id="1qc+gKaJQXR3jeqYxuk1Tg==">Romeo And Juliet</div>
+    <div class="song" data-id="AQcrYYY+aFKcp3fgaiqs8w==">Sultans Of Swing</div>
+    <div class="song" data-id="eHZzhF3O9sIQ2CT51BhMJw==">Expresso Love</div>
+    <div class="song" data-id="kh/3YRr8W7Uo1haKgv861g==">Telegraph Road</div>
+    <div class="song" data-id="H3Einiq/2hFkrSHNab3ysQ==">Private Investigations</div>
+    <div class="song" data-id="1Yd4HbYdj1Uj+6UfdywXZA==">Solid Rock</div>
+    <div class="song" data-id="fR82yAKDkZm7uQrB+1bsXw==">Once Upon A Time in The West</div>
+    <div class="song" data-id="WkedOgtDZ8+QAKo7qIhKGA==">Sultans of Swing</div>
+    <div class="song" data-id="teSIzSMvS+kJVarJNP5Qfw==">Love Over Gold</div>
+    <div class="song" data-id="TogTuHrtUhv7JCpR+94Yag==">Two Young Lovers</div>
+    <div class="song" data-id="/r+EdWbH0sNUB254iJlC7Q==">Romeo and Juliet</div>
+    <div class="song" data-id="u+otB9153UM/2xE+KWntwQ==">Tunnel of Love</div>
+    <div class="song" data-id="tnTbWlY2ot4vWPH0MHr0YQ==">Communiqué</div>
+    <div class="song" data-id="ewzXVCTpZzAEZqp0RhbOiQ==">News</div>
+    <div class="song" data-id="8JxTaeSfUQM2Y7WySHIwMg==">Going Home (Theme From Local Hero)</div>
+    <div class="song" data-id="AABX6MO2AGjjQzm43Y5tzA==">Communiqué</div>
+    <div class="song" data-id="Be5m8sYzBN9ix3xjKaLw1w==">News</div>
+    <div class="song" data-id="2fRf5gRdPP4Wa5dxamAIow==">Solid Rock</div>
+    <div class="song" data-id="PqEaCjGuc0mbG8JDm24juA==">Lady Writer</div>
+    <div class="song" data-id="EQJVo4RHUt8ruXRevQTaCg==">Portobello Belle</div>
+    <div class="song" data-id="EEALHl7Aan2cQH34t7xkwA==">Once Upon a Time in the West</div>
+    <div class="song" data-id="33T0pYEm+TmabvgCqbR10g==">Telegraph Road</div>
+    <div class="song" data-id="GOFiVXzY4rH49uLX2ydIEQ==">Portobello Belle</div>
+    <div class="song" data-id="uwy8eo7Xr8TY6Ub3F0bqBA==">Tunnel Of Love</div>
+    <div class="song" data-id="0sO9UkZFt1Z16PtQ1KVRXw==">Single-Handed Sailor</div>
+    <div class="song" data-id="3gGkMfFjAgOpK17oAB7xZw==">Follow Me Home</div>
+    <div class="song" data-id="Qw4A+/2SgCFqJ8G8MsT3Bw==">One the Night (Live)</div>
+    <div class="song" data-id="3OODaGkWQyKAJ+rmZyKCoQ==">Skateaway</div>
+    <div class="song" data-id="poy7dye0+Z89BqNA4Ow13w==">Two Young Lovers</div>
+    <div class="song" data-id="K4nTEuiNsq/AJdnpNw5aiA==">Angel of Mercy</div>
+    <div class="song" data-id="YQI57bacR5kysdDV6M5UJQ==">Single-Handed Sailor</div>
+    <div class="song" data-id="2+16nwd8ieZlviR4EX9R/Q==">Lady Writer</div>
+    <div class="song" data-id="t5GRkk2sBDp7xGbqTUhtVw==">Follow Me Home</div>
+    <div class="song" data-id="g5ICLtaqCczqAkVa4wk34Q==">Les Boys</div>
+    <div class="song" data-id="1OnRwvJbDeabL9hp3CmDUw==">Expresso Love</div>
+    <div class="song" data-id="nIptMh03GRwRBMzWF7KYeg==">My Parties</div>
+    <div class="song" data-id="83qIWj7uRIMyckdmGQ033w==">Iron Hand</div>
+    <div class="song" data-id="xqCR8wwbuIIU5nfcr24g3g==">How Long</div>
+    <div class="song" data-id="lz8TZ5Vmky3axFVURow3rQ==">Calling Elvis</div>
+    <div class="song" data-id="SVXNQBU8xCeVeEiWVvXopw==">The Bug</div>
+    <div class="song" data-id="ROaW0pDL/7G2mO7oSo4DsQ==">Angel of Mercy</div>
+    <div class="song" data-id="dEAfoozndx7nVtprnY7C9g==">Hand in Hand</div>
+    <div class="song" data-id="2BoKKtF/+ZrYxkF/Bk7YLQ==">Solid Rock</div>
+    <div class="song" data-id="mih0WPawQSvki2Y0SbULBQ==">Romeo and Juliet</div>
+    <div class="song" data-id="8wMc02c8sF4xmaq40j7q7Q==">Heavy Fuel</div>
+    <div class="song" data-id="Wz4mlDPs6anvW9n9HGQJvg==">Calling Elvis</div>
+    <div class="song" data-id="fV92sPfEGzD9xCoZ3Ty9HQ==">My Parties</div>
+    <div class="song" data-id="Ta7PQ1XdejfVXCsDoqUlcg==">Calling Elvis</div>
+    <div class="song" data-id="gnmf8sU8mhgNBAdJJgM1yQ==">The Bug</div>
+    <div class="song" data-id="Ia8G1TFfQFOOIQXzr16SHw==">Why Worry</div>
+    <div class="song" data-id="El0hRHx4R8lOyJlNE2GVJg==">Private Investigations</div>
+    <div class="song" data-id="O1ik74vKCKQfUGyNf7Q3LQ==">On Every Street</div>
+    <div class="song" data-id="T+2+ekWR5deJ1dVyxZgT3A==">Heavy Fuel</div>
+    <div class="song" data-id="r2Gce76Lf84Ga4PkDOWerA==">Fade To Black</div>
+    <div class="song" data-id="pvl/s5o4HYgYjvHomMDhuw==">Private Investigations</div>
+    <div class="song" data-id="jDrJkYm8rUlBKDPbdhn0fA==">One World</div>
+    <div class="song" data-id="Yih4/lKcvEjRpPsPQh1pKw==">Tunnel of Love</div>
+    <div class="song" data-id="03fuW+xLb1egSkBQBCXT1A==">Private Investigations</div>
+    <div class="song" data-id="rQU10ZyuKzjudxCJo+BKlA==">Iron Hand</div>
+    <div class="song" data-id="b3HGRfxTdwYhWoKZn/ANtA==">How Long</div>
+    <div class="song" data-id="p+fGNmMuS56JSC6inGT5mQ==">Telegraph Road</div>
+    <div class="song" data-id="D5yU/E2ypXK6fdaJ0siQIQ==">Private Investigations</div>
+    <div class="song" data-id="fZNt46o3n/jkRBoVM92RtA==">Ticket To Heaven</div>
+    <div class="song" data-id="M3ddIO93EgpbYM0i3rXJwA==">Brothers In Arms</div>
+    <div class="song" data-id="Q3OvIp7uIjoSEhIIUWXRQA==">Money For Nothing</div>
+    <div class="song" data-id="wXwq6cgZSe4FTzpJ2FwdAg==">Walk Of Life</div>
+    <div class="song" data-id="yefy8RO36biT1xVSgWDGsw==">Portobello Belle [Live]</div>
+    <div class="song" data-id="PBXkZBvt/mYPsgFscZDMQw==">Why Worry</div>
+    <div class="song" data-id="gGpPBSTHNOR57UFqBea28A==">Your Latest Trick</div>
+    <div class="song" data-id="6finJCl3QtDjntww4qvaDw==">Romeo and Juliet</div>
+    <div class="song" data-id="7gYFuEHNlDHLgoVvORcm3A==">Money for Nothing</div>
+    <div class="song" data-id="NaVmyRyClLli5ZjPyJUqDA==">On Every Street</div>
+    <div class="song" data-id="meBu4QKLedt64obQXu0t9g==">On Every Street</div>
+    <div class="song" data-id="tMxH0PwwV8k3uUuEH0l1dg==">Fade to Black</div>
+    <div class="song" data-id="SDsqcFj+ZCoiwRb/gifvHg==">Heavy Fuel</div>
+    <div class="song" data-id="3PnPrmEKto9p4BGwEoMSLQ==">Ticket to Heaven</div>
+    <div class="song" data-id="QB3fbYemDRkq/3jnDoq3+A==">One World</div>
+    <div class="song" data-id="uJudRiHQySLRyvRmPYGajw==">So Far Away</div>
+    <div class="song" data-id="01tq0nGBYozHZBhQSVhrOw==">Brothers in Arms</div>
+    <div class="song" data-id="UgIiSDF+8wcrbz6jU0KU/A==">Industrial Disease</div>
+    <div class="song" data-id="pbzcDiWhuFGKfxx2XKdS5A==">Love Over Gold</div>
+    <div class="song" data-id="Pg0ma6Azq2Irdt23FInoIw==">It Never Rains</div>
+    <div class="song" data-id="E7J7t1jAaUwVk4Q9xq0L8A==">Tunnel of Love</div>
+    <div class="song" data-id="3X1SGYj6gPxLQb8i9BzK2w==">Brothers in Arms</div>
+    <div class="song" data-id="9AfMWfjKNpyL9IKcd60yiQ==">Walk of Life</div>
+    <div class="song" data-id="dVzTrD1mspOrjRMi1QM2LQ==">Romeo and Juliet</div>
+    <div class="song" data-id="WpOdrJFyFzxeonDNxk8GbQ==">Portobello Belle (live)</div>
+    <div class="song" data-id="sAUb5XXmyqTguVOzZ6Co5g==">Going Home - Theme From Local Hero</div>
+    <div class="song" data-id="yiGvecc3snul7njmPNJUiQ==">You And Your Friend</div>
+    <div class="song" data-id="kkOMqSebAhBXmWzQqfFSMw==">Planet Of New Orleans</div>
+    <div class="song" data-id="gsFPPKVngqOa5i/ouFXuuA==">Romeo And Juliet</div>
+    <div class="song" data-id="7tuXJkPXwI6vPzhxU/ZsBQ==">Tunnel Of Love</div>
+    <div class="song" data-id="HQLR4UX7vdSa/KHTKlfHgQ==">Sultans Of Swing</div>
+    <div class="song" data-id="f2Ofry3KMVoPUpfUmfZZRg==">Your Latest Trick</div>
+    <div class="song" data-id="4n5ExSpyQrAl5mq2rwIS1w==">So Far Away</div>
+    <div class="song" data-id="4+D4VK2Zyl8HkB5ymDKLQQ==">Walk of Life</div>
+    <div class="song" data-id="vYJPCc0Ji4j29beoe/LbHw==">Brothers in Arms</div>
+    <div class="song" data-id="SLxQfX6BXh0asy3FbI+QXw==">Walk of Life</div>
+    <div class="song" data-id="2uo/pOip3aW69NZcmLtEBw==">Your Latest Trick</div>
+    <div class="song" data-id="PV/T8gJjsYSxvBAR6m1BJA==">Sultans of Swing</div>
+    <div class="song" data-id="xA0Jdm2NCTYza/R2H4Hqpg==">Money for Nothing</div>
+    <div class="song" data-id="DePtfCJN7ucIKCIDFyAKeg==">Telegraph Road (Live Remix)</div>
+    <div class="song" data-id="VDK03imu9KZvjQ5LrZ9YBA==">Down To The Waterline</div>
+    <div class="song" data-id="HEUWSDdgl7Di2yB+6DH1dA==">Walk Of Life</div>
+    <div class="song" data-id="PAtEtXdexyuyyYZ6yUtraw==">You and Your Friend</div>
+    <div class="song" data-id="haL939nz+N8mj4/g9oh9dg==">Money for Nothing</div>
+    <div class="song" data-id="F002TZnLGAjNYwP3Jbngmw==">Telegraph Road (live) (remix)</div>
+    <div class="song" data-id="Ltr8zTk5SuuWNnLiDn9TQA==">Where Do You Think You''re Going?</div>
+    <div class="song" data-id="d2zVG3bzqJWxrNRAsctRcw==">Once Upon a Time in the West</div>
+    <div class="song" data-id="LJIH1bj/zMSaMQhRZrqBvw==">Twisting By The Pool</div>
+    <div class="song" data-id="pqv+b/XuReXNzvDabBYNwA==">Money For Nothing</div>
+    <div class="song" data-id="5nrL5QAUxZeFPVyMsW1Dmg==">Where Do You Think Youre Going?</div>
+    <div class="song" data-id="WpDS89sCF/p4VL4Gxz5e2A==">You and Your Friend</div>
+    <div class="song" data-id="Jxxzj3Hw/4ETAFAsOkldxA==">Planet of New Orleans</div>
+    <div class="song" data-id="BpvoqPaQ83XxwLxZ1/gtSA==">Ride Across the River</div>
+    <div class="song" data-id="muQbesu4Pb6JXgYMcthP0A==">The Mans Too Strong</div>
+    <div class="song" data-id="/2v+Vcq1yLkOIvy2AUgBiw==">Down to the Waterline</div>
+    <div class="song" data-id="CESN4L/WjXNvJzMaAyRsIQ==">When It Comes To You</div>
+    <div class="song" data-id="H8ome0flxT1e0aB/ehDHDw==">Ride Across The River</div>
+    <div class="song" data-id="LCjmM+yg3rUzaE/nJ+RpXw==">Brothers In Arms</div>
+    <div class="song" data-id="Sl0dsFaBe28TOjPSGhErhA==">Once Upon a Time in the West</div>
+    <div class="song" data-id="kA50t16aBPSZGWfl54JWGA==">When It Comes to You</div>
+    <div class="song" data-id="OFOHH0WEqoDrFFWeQKyZYA==">Twisting by the Pool (remix)</div>
+    <div class="song" data-id="KPTXIM01NKN4X3vbVtKSIg==">The Man''s Too Strong</div>
+    <div class="song" data-id="q0jMBSBRmFzIZ3f43WnW6A==">Where Do You Think Youre Going</div>
+    <div class="song" data-id="bIP+hLZIYtS69GloeAcvZQ==">Where Do You Think You''re Going</div>
+ -->  </div>
 </div>
-

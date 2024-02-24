@@ -1,27 +1,52 @@
 <!DOCTYPE html>
 <html>
   <head>
+     <meta charset="UTF-8">
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <style>
       body {
         background-color: black;
         color: lightgrey;
+        /* Body to occupy the entire screen with a margin but without scroll bar */
+        margin: 0.5vh;
+        height: 99vh;
+        overflow-y: hidden;
+        font-size: 3.2vw;
       }
       .container {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         height: 100%;
+      }
+      .top-container {
+        display: flex;
+        flex-direction: row;
+        flex: 8;
+        /* Set to 0 without unit for the magic to happen: see link */
+        min-height: 0; /* https://stackoverflow.com/a/41675912/2603925 */
+        max-width: 100%;
+      }
+      navbar-component {
+        margin-right: 10mm;
+      }
+      browser-component {
+        width: 100%;
+      }
+      player-component {
+        flex: 1;
       }
     </style>
     <script src="assets/navbar.js" type="text/javascript"></script>
     <script src="assets/player.js" type="text/javascript"></script>
-    <script src="assets/app.js" type="text/javascript"></script>
+    <script src="assets/browser.js" type="text/javascript"></script>
     <script src="assets/observable.umd.js" type="text/javascript"></script>
   </head>
   <body>
     <div class="container">
-      <navbar-component></navbar-component>
-      <app-component></app-component>
+      <div class="top-container">
+        <navbar-component></navbar-component>
+        <browser-component></browser-component>
+      </div>
       <player-component></player-component>
     </div>
   </body>

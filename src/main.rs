@@ -1,6 +1,6 @@
 use std::fs;
 use std::io;
-use std::io::Write;
+use std::io::{Read, Write};
 use std::net::Ipv4Addr;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
@@ -8,7 +8,7 @@ use std::sync::Arc;
 use anyhow::Result;
 use axum::{
   http::{header, StatusCode, Uri},
-  response::IntoResponse,
+  response::{IntoResponse, Redirect},
   routing::get,
   Json, Router,
 };
@@ -41,7 +41,7 @@ struct Config {
   #[arg(short = 'd', long, default_value = PathBuf::from("rstream.db").into_os_string(), value_name = "PATH")]
   database: String,
   /// Address to listen to
-  #[arg(short = 'o', long, default_value = "127.0.0.1")]
+  #[arg(short = 'H', long, default_value = "127.0.0.1")]
   host: Ipv4Addr,
   /// Port to listen to
   #[arg(short = 'p', long, default_value = "3000")]
@@ -184,7 +184,7 @@ fn scan(data_path: &Path, config: &Config) -> Result<()> {
   Ok(())
 }
 
-async fn root() -> &'static str {
+async fn version() -> &'static str {
   concat!(env!("CARGO_PKG_NAME"), " ", env!("CARGO_PKG_VERSION"))
 }
 
@@ -201,6 +201,29 @@ async fn get_song(
 ) -> impl IntoResponse {
   match Song::get(&connection, "songs", &song_id) {
     Ok(Some(song)) => Json(song).into_response(),
+    Ok(None) => StatusCode::NOT_FOUND.into_response(),
+    Err(_) => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
+  }
+}
+
+#[axum_macros::debug_handler]
+async fn get_song_file(
+  axum::extract::Path(song_id): axum::extract::Path<String>,
+  axum::extract::State(connection): axum::extract::State<Arc<ConnectionThreadSafe>>,
+) -> impl IntoResponse {
+  match Song::get(&connection, "songs", &song_id) {
+    Ok(Some(song)) => match fs::File::open(&song.path) {
+      Ok(f) => {
+        let mut reader = std::io::BufReader::new(f);
+        let mut buffer = Vec::new();
+        let _ = reader.read_to_end(&mut buffer);
+
+        let mime = mime_guess::from_path(song.path).first_or_octet_stream();
+        ([(header::CONTENT_TYPE, mime.as_ref())], Into::<axum::body::Body>::into(buffer))
+          .into_response()
+      }
+      Err(_) => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
+    },
     Ok(None) => StatusCode::NOT_FOUND.into_response(),
     Err(_) => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
   }
@@ -308,7 +331,6 @@ async fn search(
   search_params: axum::extract::Query<SearchParams>,
   pagination: axum::extract::Query<Pagination>,
 ) -> impl IntoResponse {
-  println!("{:?}", search_params);
   let term = search_params.0.term;
   let (offset, limit) = get_offset_and_limit(&pagination.0);
   match execute_query(
@@ -367,9 +389,14 @@ async fn serve(config: &Config) -> Result<()> {
 
   // Build our application with a route
   let mut app = Router::new()
-    .route("/", get(root))
+    .route("/", get(|| async { Redirect::permanent("/assets") }))
+    .route("/assets", get(|| async { Redirect::permanent("/assets/index.html") }))
+    .route("/assets/", get(|| async { Redirect::permanent("/assets/index.html") }))
+    .route("/version", get(version))
     .route("/songs", get(get_songs))
     .route("/songs/:song_id", get(get_song))
+    // FIXME: find better URL
+    .route("/song/:song_id", get(get_song_file))
     .route("/artists", get(get_artists))
     .route("/albums", get(get_albums))
     .route("/search", get(search))
@@ -383,9 +410,7 @@ async fn serve(config: &Config) -> Result<()> {
   } else {
     // We use a wildcard matcher ("/assets/*file") to match against everything
     // within our defined assets directory.
-    app = app
-      .route("/assets/", get(static_handler)) // We handle "" -> index.html in static_handler
-      .route("/assets/*file", get(static_handler));
+    app = app.route("/assets/*file", get(static_handler));
     tracing::debug!("serving embedded assets");
   }
 
