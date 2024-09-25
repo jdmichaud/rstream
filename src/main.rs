@@ -325,6 +325,7 @@ async fn get_artists(
   }
   return StatusCode::INTERNAL_SERVER_ERROR.into_response();
 }
+
 #[axum_macros::debug_handler]
 async fn search(
   axum::extract::State(connection): axum::extract::State<Arc<ConnectionThreadSafe>>,
@@ -355,13 +356,14 @@ async fn search(
 #[folder = "assets/"]
 struct Asset;
 
+#[axum_macros::debug_handler]
 async fn static_handler(uri: Uri) -> impl IntoResponse {
   let mut path = uri.path().trim_start_matches('/').to_string();
   // Files are embedded without the containing folder path
   if path.starts_with("assets/") {
     path = path.replace("assets/", "");
   }
-  println!("path {}", path);
+
   if path == "" {
     path = "index.html".to_string();
   }
