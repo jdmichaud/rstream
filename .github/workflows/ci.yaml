@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install build environment
+      run: |
+        rustup default nightly
+        rustup target add x86_64-unknown-linux-musl
+        rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
+        sudo apt-get install musl musl-tools musl-dev
+    - name: Build
+      run: cargo build --profile release-with-debug --verbose
+    - name: Run tests
+      run: cargo test --verbose
+
