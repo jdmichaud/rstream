@@ -420,7 +420,7 @@ async fn serve(config: &Config) -> Result<()> {
   app = app.layer(
     TraceLayer::new_for_http()
       .make_span_with(trace::DefaultMakeSpan::new().level(Level::INFO))
-      .on_response(trace::DefaultOnResponse::new().level(Level::INFO)),
+      .on_response(trace::DefaultOnResponse::new().level(Level::INFO).include_headers(true)),
   );
 
   // run our app with hyper
@@ -429,7 +429,7 @@ async fn serve(config: &Config) -> Result<()> {
     .unwrap();
   tracing::debug!("listening on {}", listener.local_addr().unwrap());
   println!(
-    "serving {} songs from {} on {}...",
+    "serving {} songs from {} on http://{}...",
     nb_songs,
     config.database,
     listener.local_addr().unwrap()
