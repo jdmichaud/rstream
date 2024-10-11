@@ -1,0 +1,15 @@
+[Unit]
+Description=rstream caddy reverse proxy service
+After=network.target
+StartLimitIntervalSec=0
+PartOf=rstream.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+
+ExecStart=@INSTALL_FOLDER@caddy reverse-proxy --disable-redirects --from localhost:8000 --to :8001
+
+[Install]
+WantedBy=rstream.target

@@ -1,0 +1,23 @@
+[Unit]
+Description=rstream OAuth2 proxy
+After=network.target
+StartLimitIntervalSec=0
+PartOf=rstream.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+
+ExecStart=@INSTALL_FOLDER@/oauth2-proxy --provider google \
+  --cookie-secret @COOKIE_SECRET@ \
+  --client-id @GOOGLE_CLIENT_ID@ \
+  --client-secret @GOOGLE_CLIENT_SECRET@ \
+  --email-domain @DOMAIN@ \
+  --http-address 0.0.0.0:8001 \
+  --redirect-url https://localhost:8000/oauth2/callback \
+  --authenticated-emails-file @INSTALL_FOLDER@/authenticated-emails-file \
+  --upstream http://localhost:3000
+
+[Install]
+WantedBy=rstream.target

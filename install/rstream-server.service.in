@@ -1,0 +1,15 @@
+[Unit]
+Description=rstream server
+After=network.target
+StartLimitIntervalSec=0
+PartOf=rstream.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+
+ExecStart=@INSTALL_FOLDER@rstream-x86_64-linux --database @DATA_HOME@/rstream.db
+
+[Install]
+WantedBy=rstream.target

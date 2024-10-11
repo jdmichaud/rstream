@@ -1,0 +1,7 @@
+[Unit]
+Description=Rstream target
+Requires=basic.target
+After=basic.target
+Requires=rstream-caddy.service
+Requires=rstream-oauth2-proxy.service
+Requires=rstream-server.service
